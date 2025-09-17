@@ -1,0 +1,61 @@
+﻿@model CMCSProject.Models.Claim
+@{
+	ViewData["Title"] = "Contract Monthly Claim System";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+	<div class="col-md-6">
+		<h3>Submit a Claim</h3>
+		<form asp-action="Submit" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<label asp-for="LecturerName"></label>
+				<input asp-for="LecturerName" class="form-control"/>
+				<span asp-validation-for="LecturerName" class="text-danger"></span>
+			</div>
+			
+			<div class="form-group">
+				<label asp-for="HoursWorked"></label>
+				<input asp-for="HoursWorked" class="form-control"/>
+				<span asp-validation-for="HoursWorked" class="text-danger"></span>
+			</div>
+			
+			<div class="form-group">
+				<label asp-for="HourlyRate"></label>
+				<input asp-for="HourlyRate" class="form-control"/>
+				<span asp-validation-for="HourlyRate" class="text-danger"></span>
+			</div>
+			
+			<div class="form-group">
+				<label asp-for="UploadedDocument">Upload Document (.pdf, .doc, .xlsx)</label>
+				<input asp-for="UploadedDocument" type="file" name="document" class="form-control"/>
+			</div>
+			
+			<button type="submit" class="btn btn-primary mt-2">Submit Claim</button>
+			</form>
+	</div>
+
+	<div class="col-md-6">
+		<h3>Claim Status</h3>
+		@if (Model != null)
+		{
+			<p><strong>Lecturer:</strong> @Model.LecturerName</p>
+			<p><strong>Hours Worked:</strong> @Model.HoursWorked</p>
+			<p><strong>Hourly Rate:</strong> @Model.HourlyRate</p>
+			<p><strong>Document:</strong> @Model.UploadedDocument ?? "No document upload"</p>
+			<p><strong>Status:</strong> @Model.Status</p>
+
+			<a asp-action="Verify" class="btn btn-warning">Verify Claim</a>
+			<a asp-action="Approve" class="btn btn-success">Approve Claim</a>
+		}
+		else
+		{
+			<p>No Claim submitted yet.</p>
+		}
+	</div>
+</div>
+
+@section Scripts{
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
